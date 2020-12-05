@@ -4,7 +4,12 @@ using System.Text;
 
 namespace DUMPinternship_3_oop
 {
-    class EventType
+    public enum Event_Type
     {
+        Coffee,
+        Lecture,
+        Concert,
+        StudySession
+
     }
 }
