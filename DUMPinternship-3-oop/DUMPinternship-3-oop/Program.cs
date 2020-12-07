@@ -55,6 +55,46 @@ namespace DUMPinternship_3_oop
         }
         public static void Menu(Dictionary<Event, List<Person>> eventDic)
         {
+            var result = 0;
+                do
+                {
+                Console.WriteLine("Odaberite akciju:");
+                Console.WriteLine("1 - dodavanje eventa");
+                Console.WriteLine("2 - brisanje eventa");
+                Console.WriteLine("3 - edit Eventa");
+                Console.WriteLine("4 - dodavanje osobe na event");
+                Console.WriteLine("5 - uklanjane osobe sa eventa");
+                Console.WriteLine("6 - Ispis detalja eventa");
+                Console.WriteLine("7 - prekid rada");
+                var action = Console.ReadLine();
+
+                bool parseSuccess = int.TryParse(action, out result);
+                while (!parseSuccess)
+                {
+                    Console.WriteLine("unijeli ste neispravnu vrijednost unesite ponovno:");
+                    action = Console.ReadLine();
+
+                    parseSuccess = int.TryParse(action, out result);
+                }
+
+
+                switch (result)
+                {
+                    case 1:
+                        Addingevent(eventDic);
+                        break;
+                    case 2:
+                        DeleteEvent(eventDic);
+                        break;
+                    case 3:
+                        EditEvent(eventDic);
+                        break;
+                    case 7:
+                        break;
+                }
+                } while (result != 7);
+           
+
 
         }
         public static void Addingevent(Dictionary<Event,List<Person>> myDic)
@@ -96,14 +136,14 @@ namespace DUMPinternship_3_oop
                 newEvent = new Event(name, Event_Type.concert, startTime, endTime);
            }
 
-           if(EventName(myDic,name))
+           if(EventName(myDic,name) && EndBeforeStart(newEvent) && Overlap(myDic,newEvent))
            {
                 myDic.Add(newEvent, people);
                 Console.WriteLine("event je uspjesno dodan!");
            }
            else
            {
-                Console.WriteLine("vec postoji event s tim imenom!");
+                Console.WriteLine("event nije moguce dodati.");
                 Menu(myDic);
            }
         }
@@ -180,6 +220,7 @@ namespace DUMPinternship_3_oop
                         { 
                             if(pair.Key.Name==name)
                             {
+
                                 pair.Key.StartTime = newStart;
                                 Console.WriteLine("uspjesno je promijenjeno vrijeme pocetka.");
                             }
@@ -206,9 +247,44 @@ namespace DUMPinternship_3_oop
                 Console.WriteLine("Event s ovim imenom ne postoji!");
                 Menu(eventDic);
             }
+       }
+       
+        public static void AddingPerson(Dictionary<Event,List<Person>> eventDic)
+        {
+            Console.WriteLine("upisite ime eventa na koji zelite dodati osobu:");
+            var name = Console.ReadLine();
 
+            Console.WriteLine("upisite ime osobe koju zelite dodati:");
+            var personName = Console.ReadLine();
 
+            Console.WriteLine("upisite prezime osobe koju zelite dodati:");
+            var personLastName = Console.ReadLine();
+
+            Console.WriteLine("unesite oib osobe koju zelite dodati:");
+            var OIB = Console.ReadLine();
+
+            Console.WriteLine("unesite broj telefona osobe koju zelite dodati:");
+            var phoneNumber = Console.ReadLine();
+
+            var person = new Person(name, personLastName, OIB, phoneNumber);
+
+            if(!SameOIB(eventDic,person))
+            {
+                Console.WriteLine("osoba koju ste upisali je vec na popisu za taj event.");
+            }
+            else
+            {
+                foreach(var pair in eventDic)
+                {
+                    if(pair.Key.Name==name)
+                    {
+                        pair.Value.Add(person);
+                        Console.WriteLine("osoba je uspjesno dodana!");
+                    }
+                }
+            }
         }
+        
 
         static void Main()
         {
@@ -234,6 +310,7 @@ namespace DUMPinternship_3_oop
                 {fourthEvent, new List<Person> {seventhPerson, eighthPerson } }
             };
 
+            Menu(eventDic);
         }
     }
        
