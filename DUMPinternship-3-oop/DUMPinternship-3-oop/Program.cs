@@ -253,38 +253,83 @@ namespace DUMPinternship_3_oop
         {
             Console.WriteLine("upisite ime eventa na koji zelite dodati osobu:");
             var name = Console.ReadLine();
-
-            Console.WriteLine("upisite ime osobe koju zelite dodati:");
-            var personName = Console.ReadLine();
-
-            Console.WriteLine("upisite prezime osobe koju zelite dodati:");
-            var personLastName = Console.ReadLine();
-
-            Console.WriteLine("unesite oib osobe koju zelite dodati:");
-            var OIB = Console.ReadLine();
-
-            Console.WriteLine("unesite broj telefona osobe koju zelite dodati:");
-            var phoneNumber = Console.ReadLine();
-
-            var person = new Person(name, personLastName, OIB, phoneNumber);
-
-            if(!SameOIB(eventDic,person))
+            if (!EventName(eventDic, name))
             {
-                Console.WriteLine("osoba koju ste upisali je vec na popisu za taj event.");
-            }
-            else
-            {
-                foreach(var pair in eventDic)
+
+                Console.WriteLine("upisite ime osobe koju zelite dodati:");
+                var personName = Console.ReadLine();
+
+                Console.WriteLine("upisite prezime osobe koju zelite dodati:");
+                var personLastName = Console.ReadLine();
+
+                Console.WriteLine("unesite oib osobe koju zelite dodati:");
+                var OIB = Console.ReadLine();
+
+                Console.WriteLine("unesite broj telefona osobe koju zelite dodati:");
+                var phoneNumber = Console.ReadLine();
+
+                var person = new Person(name, personLastName, OIB, phoneNumber);
+
+                if (!SameOIB(eventDic, person))
                 {
-                    if(pair.Key.Name==name)
+                    Console.WriteLine("osoba koju ste upisali je vec na popisu za taj event.");
+                }
+                else
+                {
+                    foreach (var pair in eventDic)
                     {
-                        pair.Value.Add(person);
-                        Console.WriteLine("osoba je uspjesno dodana!");
+                        if (pair.Key.Name == name)
+                        {
+                            pair.Value.Add(person);
+                            Console.WriteLine("osoba je uspjesno dodana!");
+                        }
                     }
                 }
             }
+            else
+            {
+                Console.WriteLine("ne postoji event pod ovim imenom.");
+                Menu(eventDic);
+            }
         }
         
+        public static void RemovePerson(Dictionary<Event,List<Person>> eventDic)
+        {
+            var counter = 0;
+
+            Console.WriteLine("upisite ime eventa s kojeg zelite maknuti nekoga:");
+            var name = Console.ReadLine();
+
+            if(!EventName(eventDic,name))
+            {
+                Console.WriteLine("Upisite oib osobe koju zelite maknuti s liste:");
+                var personOIB = Console.ReadLine();
+
+                foreach(var pair in eventDic)
+                {
+                    foreach(var person in pair.Value)
+                    {
+                        if (person.OIB == personOIB)
+                        { 
+                            counter++;
+                            pair.Value.Remove(person);
+                        }
+                    }
+                }
+                if(counter==0)
+                {
+                    Console.WriteLine("ne postoji osoba s OIBom kojeg ste unijeli!");
+                    Menu(eventDic);
+                }
+                
+            }
+            else
+            {
+                Console.WriteLine("Ne postoji event s unesnim imenom");
+                Menu(eventDic);
+            }
+        }
+
 
         static void Main()
         {
