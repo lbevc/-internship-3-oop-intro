@@ -6,10 +6,10 @@ namespace DUMPinternship_3_oop
 {
     public enum Event_Type
     {
-        Coffee,
-        Lecture,
-        Concert,
-        StudySession
+        coffee,
+        lecture,
+        concert,
+        studySession
 
     }
 }
