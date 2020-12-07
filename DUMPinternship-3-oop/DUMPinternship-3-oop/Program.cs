@@ -136,7 +136,79 @@ namespace DUMPinternship_3_oop
            
         }
 
-       
+       public static void EditEvent(Dictionary<Event,List<Person>> eventDic)
+       {
+            Console.WriteLine("upisite ime eventa kojeg zelite editirati:");
+            var name = Console.ReadLine();
+
+            if(!EventName(eventDic,name))
+            {
+                Console.WriteLine("upisite sto zelite editirati: 1-ime eventa, 2-vrijeme pocetka,3-vrijeme zavrsetka");
+                var edit = int.Parse(Console.ReadLine());
+
+
+
+                switch (edit)
+                {
+                    case 1:
+                        Console.WriteLine("upisite novo ime eventa:");
+                        var newName = Console.ReadLine();
+
+                        if(EventName(eventDic,newName))
+                        {
+                            foreach (var pair in eventDic)
+                            {
+                                if (pair.Key.Name == name)
+                                {
+                                    pair.Key.Name = newName;
+                                    Console.WriteLine("ime eventa je uspjesno promijenjeno!");
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("vec postoji event s ovim imenom.");
+                            Menu(eventDic);
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine("upisite novi pocetak eventa:");
+                        var newStart = DateTime.Parse(Console.ReadLine());
+
+                        foreach(var pair in eventDic) 
+                        { 
+                            if(pair.Key.Name==name)
+                            {
+                                pair.Key.StartTime = newStart;
+                                Console.WriteLine("uspjesno je promijenjeno vrijeme pocetka.");
+                            }
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine("upisite novi zavrsetak eventa:");
+                        var newEnd = DateTime.Parse(Console.ReadLine());
+
+                        foreach (var pair in eventDic)
+                        {
+                            if (pair.Key.Name == name)
+                            {
+                                pair.Key.StartTime = newEnd;
+                                Console.WriteLine("uspjesno je promijenjeno vrijeme zavrsetka.");
+                            }
+                        }
+                        break;
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Event s ovim imenom ne postoji!");
+                Menu(eventDic);
+            }
+
+
+        }
 
         static void Main()
         {
@@ -149,10 +221,10 @@ namespace DUMPinternship_3_oop
             var seventhPerson = new Person("Scott", "Montgomery", "94567893333", "0993333337");
             var eighthPerson = new Person("Christine", "Chapel", "14567893333", "0993333338");
 
-            var firstEvent = new Event("Coffee with a friend", Event_Type.coffee, new DateTime(2020, 3, 1, 7, 0, 0), new DateTime(2020, 3, 1, 9, 0, 0));
-            var secondEvent = new Event("Madonnas concert", Event_Type.concert, new DateTime(2020, 3, 2, 10, 0, 0), new DateTime(2020, 3, 2, 11, 0, 0));
-            var thirdEvent = new Event("Math", Event_Type.studySession, new DateTime(2020, 3, 3, 7, 0, 0), new DateTime(2020, 3, 3, 11, 0, 0));
-            var fourthEvent = new Event("English", Event_Type.lecture, new DateTime(2020, 3, 4, 9, 0, 0), new DateTime(2020, 3, 4, 12, 0, 0));
+            var firstEvent = new Event("coffee with a friend", Event_Type.coffee, new DateTime(2020, 3, 1, 7, 0, 0), new DateTime(2020, 3, 1, 9, 0, 0));
+            var secondEvent = new Event("madonnas concert", Event_Type.concert, new DateTime(2020, 3, 2, 10, 0, 0), new DateTime(2020, 3, 2, 11, 0, 0));
+            var thirdEvent = new Event("math", Event_Type.studySession, new DateTime(2020, 3, 3, 7, 0, 0), new DateTime(2020, 3, 3, 11, 0, 0));
+            var fourthEvent = new Event("english", Event_Type.lecture, new DateTime(2020, 3, 4, 9, 0, 0), new DateTime(2020, 3, 4, 12, 0, 0));
 
             Dictionary<Event, List<Person>> eventDic = new Dictionary<Event, List<Person>>()
             {
