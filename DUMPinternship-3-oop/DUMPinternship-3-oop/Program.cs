@@ -89,6 +89,15 @@ namespace DUMPinternship_3_oop
                     case 3:
                         EditEvent(eventDic);
                         break;
+                    case 4:
+                        AddingPerson(eventDic);
+                        break;
+                    case 5:
+                        RemovePerson(eventDic);
+                        break;
+                    case 6:
+                        Details(eventDic);
+                        break;
                     case 7:
                         break;
                 }
@@ -329,7 +338,82 @@ namespace DUMPinternship_3_oop
                 Menu(eventDic);
             }
         }
+       public static void Details(Dictionary<Event,List<Person>> eventDic)
+       {
+            var result = 0;
+            do
+            {
+                Console.WriteLine("Izaberite akciju:");
+                Console.WriteLine("1 -  Ispis detalja eventa u formatu: name – event type – start time – end time – trajanje – ispis broja ljudi na eventu");
+                Console.WriteLine("2 - Ispis svih osoba na eventu u formatu: [Redni broj u listi]. name – last name – broj mobitela");
+                Console.WriteLine("3 -  Ispis svih detalja");
+                Console.WriteLine("4 - Izlazak iz podmenija");
+                var action = Console.ReadLine();
 
+                bool parseSuccess = int.TryParse(action, out result);
+                while (!parseSuccess)
+                {
+                    Console.WriteLine("unijeli ste neispravnu vrijednost unesite ponovno:");
+                    action = Console.ReadLine();
+
+                    parseSuccess = int.TryParse(action, out result);
+                }
+
+                switch(result)
+                {
+                    case 1:
+                        var counter = 0;
+
+                        foreach(var pair in eventDic)
+                        {
+                            foreach(var person in pair.Value)
+                            {
+                                counter++;
+                            }
+                            Console.WriteLine("ime eventa je {0}, tip eventa je {1}, pocetak eventa je {2}, zavrsetak eventa je {3}, trajanje eventa je {4}, broj ljudi na eventu je {5}:", pair.Key.Name, pair.Key.EventType, pair.Key.StartTime, pair.Key.EndTime, pair.Key.StartTime - pair.Key.EndTime, counter);
+                            counter = 0;
+                        }
+                        break;
+                    case 2:
+                        var counter2 = 0;
+                        foreach (var pair in eventDic)
+                        {
+                            foreach (var person in pair.Value)
+                            {
+                                Console.WriteLine("{0}. ime osobe je {1}, prezime {2}, a broj mobitela{3}", counter2 + 1, person.FirstName, person.LastName, person.PhoneNumber);
+                                counter2++;
+                            }
+                            counter = 0;
+
+                        }
+                        break;
+                    case 3:
+                        var counter3 = 0;
+                        var counter4 = 0;
+
+                        foreach (var pair in eventDic)
+                        {
+                            foreach (var person in pair.Value)
+                            {
+                                counter3++;
+                            }
+                            Console.WriteLine("ime eventa je {0}, tip eventa je {1}, pocetak eventa je {2}, zavrsetak eventa je {3}, trajanje eventa je {4}, broj ljudi na eventu je {5}:", pair.Key.Name, pair.Key.EventType, pair.Key.StartTime, pair.Key.EndTime, pair.Key.StartTime - pair.Key.EndTime, counter3);
+                            foreach (var person in pair.Value)
+                            {
+                                Console.WriteLine("{0}. ime osobe je {1}, prezime {2}, a broj mobitela{3}", counter4 + 1, person.FirstName, person.LastName, person.PhoneNumber);
+                                counter4++;
+                            }
+                            counter4 = 0;
+                            counter3 = 0;
+                        }
+                        break;
+                    case 4:
+                        break;
+                }
+            } while (result != 4);
+
+            
+       }
 
         static void Main()
         {
